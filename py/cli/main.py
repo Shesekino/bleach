@@ -1,10 +1,10 @@
 import argparse
 
-from sourcecontrol import github
 from outputs import stdout
+from sourcecontrol import github
 
 
-def main(owner, repository, accessToken):
+def main(owner, repository, accessToken=None):
     pullrequestInfo = github.listPullRequests(owner, repository, accessToken)
     stdout.send(pullrequestInfo)
 
