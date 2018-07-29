@@ -1,10 +1,10 @@
 import os
 
-from cli import args
-from outputs import slack
-from outputs import stdout
-from formatters import default
-from sourcecontrol import github
+from bleach.cli import args
+from bleach.outputs import slack
+from bleach.outputs import stdout
+from bleach.formatters import default
+from bleach.sourcecontrol import github
 
 
 def main(owner, repository, outputMethod, accessToken=None):
