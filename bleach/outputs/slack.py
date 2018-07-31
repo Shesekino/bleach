@@ -8,7 +8,8 @@ def send(data):
 
     slackClient = slackclient.SlackClient(os.environ['BLEACH_SLACK_ACCESS_TOKEN'])
 
-    slackClient.api_call(
+    # TODO check response for errors?
+    response = slackClient.api_call(
         "chat.postMessage",
         channel=os.environ['BLEACH_SLACK_CHANNEL'],
         text=data,
