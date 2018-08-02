@@ -22,8 +22,9 @@ def listPullRequests(owner, repository, accessToken=None):
     processedResponse = response.json()
     filteredInfo = [
         {
-            "createdAt": pullrequestInfo['created_at'],
-            "user": pullrequestInfo['user']['login'],
+            'createdAt': pullrequestInfo['created_at'],
+            'user': pullrequestInfo['user']['login'],
+            'title': pullrequestInfo['title'],
         }
         for pullrequestInfo in processedResponse
     ]
