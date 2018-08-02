@@ -1,3 +1,8 @@
+import pytz
+import datetime
+from dateutil import parser
+
+
 LINE_TEMPLATE = "{title}\nopen for {days} days - owner is {user}"
 
 
@@ -24,9 +29,6 @@ def _listOfOldestRequests(data, countOfOldest=5):
 
 
 def _calculateDaysAlive(stringOfDateFrom):
-    import datetime
-    from dateutil import parser
-    import pytz
     now = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
     dateFrom = parser.parse(stringOfDateFrom)
 
