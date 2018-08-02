@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="bleachrepo",
-    version="0.0.8",
+    version="0.0.12",
     author="Amir Moualem",
     author_email="amoualem@gmail.com",
     description="Find and remove the mold from your source control repositories",
@@ -18,4 +18,10 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ),
+    install_requires=[
+        "slackclient",
+        "requests",
+        "python-dateutil",
+        "pytz",
+    ],
 )
