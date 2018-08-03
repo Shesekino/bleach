@@ -10,7 +10,7 @@ def doFormat(data):
     return _listOfOldestRequests(data)
 
 
-def _listOfOldestRequests(data, countOfOldest=5):
+def _listOfOldestRequests(data, countOfOldest=5, daysOpenThreshold=2):
     assert type(data) == list
     sortedByDate = sorted(data, key=lambda record: record["createdAt"])
     recordsToKeep = sortedByDate[:countOfOldest]
@@ -18,6 +18,9 @@ def _listOfOldestRequests(data, countOfOldest=5):
     formattedData = []
     for record in recordsToKeep:
         daysAlive = _calculateDaysAlive(record["createdAt"])
+        if daysAlive < daysOpenThreshold:
+            continue
+
         formattedLine = LINE_TEMPLATE.format(
             title=record["title"],
             days=daysAlive,

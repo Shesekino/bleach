@@ -1,17 +1,17 @@
-import os
-
+from bleach import config
 from bleach.cli import args
 from bleach.outputs import slack
 from bleach.outputs import stdout
-from bleach.formatters import default
 from bleach.sourcecontrol import github
+from bleach.formatters import oldestRequests
 
 
-def main(owner, repository, outputMethod, accessToken=None):
-    pullrequestInfo = github.listPullRequests(owner, repository, accessToken)
+def main(owner, repository):
+    pullrequestInfo = github.listPullRequests(owner, repository)
 
-    formattedOutput = default.doFormat(pullrequestInfo)
+    formattedOutput = oldestRequests.doFormat(pullrequestInfo)
 
+    outputMethod = config.CONFIG["outputMethod"]
     if outputMethod == 'stdout':
         stdout.send(formattedOutput)
     elif outputMethod == 'slack':
@@ -21,9 +21,4 @@ def main(owner, repository, outputMethod, accessToken=None):
 
 if __name__ == "__main__":
     args = args.getCommandlineArgs()
-
-    accessToken = args.accessToken
-    if 'BLEACH_GITHUB_ACCESS_TOKEN' in os.environ:
-        accessToken = os.environ['BLEACH_GITHUB_ACCESS_TOKEN']
-
-    main(args.owner, args.repository, args.outputMethod, accessToken)
+    main(args.owner, args.repository)
