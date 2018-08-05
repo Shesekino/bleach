@@ -3,13 +3,13 @@ from bleach.cli import args
 from bleach.outputs import slack
 from bleach.outputs import stdout
 from bleach.sourcecontrol import github
-from bleach.formatters import oldestRequests
+from bleach.formatters import oldest_requests
 
 
 def main(owner, repository):
     pullrequestInfo = github.listPullRequests(owner, repository)
 
-    formattedOutput = oldestRequests.doFormat(pullrequestInfo)
+    formattedOutput = oldest_requests.doFormat(pullrequestInfo)
 
     outputMethod = config.CONFIG["outputMethod"]
     if outputMethod == 'stdout':
