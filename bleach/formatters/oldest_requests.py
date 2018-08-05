@@ -2,15 +2,19 @@ import pytz
 import datetime
 from dateutil import parser
 
+from bleach import config
+
 
 LINE_TEMPLATE = "{title}\nopen for {days} days - owner is {user}"
 
 
 def doFormat(data):
-    return _listOfOldestRequests(data)
+    countOfOldest = config.CONFIG['countToDisplay']
+    daysOpenThreshold = config.CONFIG['daysOpenThreshold']
+    return _listOfOldestRequests(data, countOfOldest, daysOpenThreshold)
 
 
-def _listOfOldestRequests(data, countOfOldest=5, daysOpenThreshold=2):
+def _listOfOldestRequests(data, countOfOldest, daysOpenThreshold):
     assert type(data) == list
     sortedByDate = sorted(data, key=lambda record: record.createdAt)
     recordsToKeep = sortedByDate[:countOfOldest]

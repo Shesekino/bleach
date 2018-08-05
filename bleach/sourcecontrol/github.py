@@ -9,12 +9,12 @@ def listPullRequests(owner, repository):
     response = requests.get(url, headers=_getHeaders())
 
     if response.status_code == 404:
-        print("couldn't find the organization or repository, check your access token")
+        print("couldn't find the organization or repository")
         return []
 
     if response.status_code == 401:
-        print("unauthorized")
-        raise Exception("unauthorized, check your access token")
+        print("unauthorized, check your username or password")
+        raise Exception("unauthorized, check your username or password")
 
     processedResponse = response.json()
     filteredInfo = [
