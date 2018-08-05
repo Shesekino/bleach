@@ -1,6 +1,7 @@
 import requests
 
 from bleach import config
+from bleach.models import pullrequest
 
 
 def listPullRequests(owner, repository):
@@ -17,11 +18,9 @@ def listPullRequests(owner, repository):
 
     processedResponse = response.json()
     filteredInfo = [
-        {
-            'createdAt': pullrequestInfo['created_at'],
-            'user': pullrequestInfo['user']['login'],
-            'title': pullrequestInfo['title'],
-        }
+        pullrequest.PullRequest(createdAt=pullrequestInfo['created_at'],
+                                user=pullrequestInfo['user']['login'],
+                                title=pullrequestInfo['title'])
         for pullrequestInfo in processedResponse
     ]
 
