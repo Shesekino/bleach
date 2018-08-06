@@ -18,8 +18,8 @@ def listPullRequests(owner, repository):
             return []
 
         if response.status_code == 401:
-            print("unauthorized, check your username or password")
-            raise Exception("unauthorized, check your username or password")
+            print("unauthorized, check your access token")
+            raise Exception("unauthorized, check your access token")
 
         pullrequests = response.json()
         processedResults.extend(
