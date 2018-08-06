@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="bleachrepo",
-    version="0.0.14",
+    version="0.0.15",
     author="Amir Moualem",
     author_email="amoualem@gmail.com",
     description="Find and remove the mold from your source control repositories",
