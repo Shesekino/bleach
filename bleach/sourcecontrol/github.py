@@ -6,27 +6,35 @@ from bleach.models import pullrequest
 
 def listPullRequests(owner, repository):
     url = _getUrl(owner, repository)
-    response = requests.get(url, headers=_getHeaders())
+    headers = _getHeaders()
+    processedResults = []
 
-    if response.status_code == 404:
-        print("couldn't find the organization or repository")
-        return []
+    keepFetchingResults = True
+    while keepFetchingResults:
+        response = requests.get(url, headers=headers)
 
-    if response.status_code == 401:
-        print("unauthorized, check your username or password")
-        raise Exception("unauthorized, check your username or password")
+        if response.status_code == 404:
+            print("couldn't find the organization or repository")
+            return []
 
-    # TODO handle response pages
+        if response.status_code == 401:
+            print("unauthorized, check your username or password")
+            raise Exception("unauthorized, check your username or password")
 
-    processedResponse = response.json()
-    filteredInfo = [
-        pullrequest.PullRequest(createdAt=pullrequestInfo['created_at'],
-                                user=pullrequestInfo['user']['login'],
-                                title=pullrequestInfo['title'])
-        for pullrequestInfo in processedResponse
-    ]
+        pullrequests = response.json()
+        processedResults.extend(
+            pullrequest.PullRequest(createdAt=pullrequestInfo['created_at'],
+                                    user=pullrequestInfo['user']['login'],
+                                    title=pullrequestInfo['title'])
+            for pullrequestInfo in pullrequests
+        )
 
-    return filteredInfo
+        if response.links and 'next' in response.links:
+            url = response.links['next']['url']
+        else:
+            keepFetchingResults = False
+
+    return processedResults
 
 
 def _getUrl(owner, repository):
