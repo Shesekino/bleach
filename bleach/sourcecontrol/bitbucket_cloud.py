@@ -22,8 +22,6 @@ def listPullRequests(owner, repository):
     # TODO handle response pages
 
     pullrequests = processedResponse['values']
-    # created_on , title , author.username
-
     filteredInfo = [
         pullrequest.PullRequest(createdAt=pullrequestInfo['created_on'],
                                 user=pullrequestInfo['author']['username'],

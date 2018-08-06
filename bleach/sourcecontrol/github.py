@@ -16,6 +16,8 @@ def listPullRequests(owner, repository):
         print("unauthorized, check your username or password")
         raise Exception("unauthorized, check your username or password")
 
+    # TODO handle response pages
+
     processedResponse = response.json()
     filteredInfo = [
         pullrequest.PullRequest(createdAt=pullrequestInfo['created_at'],
