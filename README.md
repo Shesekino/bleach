@@ -30,13 +30,9 @@ and run normally.
 
 ## Writing to Slack
 
-Set an access token to slack:
+Set a webhook URL to slack:
 
-`export BLEACH_SLACK_ACCESS_TOKEN=<access token>`
-
-and the channel you wish to write to:
-
-`export BLEACH_SLACK_CHANNEL=<channel>`
+`export BLEACH_SLACK_WEBHOOK=<webhook url>`
 
 then run:
 
