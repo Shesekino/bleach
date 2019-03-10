@@ -4,8 +4,8 @@ clean:
 	rm -rf build
 	rm -rf dist
 build:
-	PYTHONPATH=py python3 setup.py sdist bdist_wheel
+	python setup.py sdist bdist_wheel
 
 upload:
-	twine upload dist/*
+	python3 -m twine upload dist/*
 
