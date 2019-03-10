@@ -5,7 +5,7 @@ from dateutil import parser
 from bleach import config
 
 
-LINE_TEMPLATE = "{title}\nopen for {days} days - owner is {user}"
+LINE_TEMPLATE = "*{repo}*\n{title}\nopen for {days} days - owner is {user}\n{url}"
 
 
 def doFormat(data):
@@ -26,9 +26,11 @@ def _listOfOldestRequests(data, countOfOldest, daysOpenThreshold):
             continue
 
         formattedLine = LINE_TEMPLATE.format(
+            repo=record.repo,
             title=record.title,
             days=daysAlive,
-            user=record.user
+            user=record.user,
+            url=record.url,
         )
         formattedData.append(formattedLine)
 

@@ -23,9 +23,13 @@ def listPullRequests(owner, repository):
 
         pullrequests = response.json()
         processedResults.extend(
-            pullrequest.PullRequest(createdAt=pullrequestInfo['created_at'],
-                                    user=pullrequestInfo['user']['login'],
-                                    title=pullrequestInfo['title'])
+            pullrequest.PullRequest(
+                repo=repository,
+                createdAt=pullrequestInfo['created_at'],
+                user=pullrequestInfo['user']['login'],
+                title=pullrequestInfo['title'],
+                url=pullrequestInfo['html_url'],
+            )
             for pullrequestInfo in pullrequests
         )
 
