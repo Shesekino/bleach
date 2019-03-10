@@ -1,14 +1,15 @@
-import slackclient
+import json
+import requests
 
 from bleach import config
 
 
 def send(data):
-    slackClient = slackclient.SlackClient(config.CONFIG['slackAccessToken'])
+    url = config.CONFIG['slackWebhook']
 
     # TODO check response for errors?
-    response = slackClient.api_call(
-        "chat.postMessage",
-        channel=config.CONFIG['slackChannel'],
-        text=data,
+    response = requests.post(
+        url=url,
+        data=json.dumps({'text': data}),
+        headers={'Content-Type': 'application/json'}
     )

@@ -47,11 +47,8 @@ def _validateArgs(args):
         sys.exit(1)
 
     if args.outputMethod == 'slack':
-        if not config.CONFIG['slackChannel']:
-            print("must set a slack channel using environment variable BLEACH_SLACK_CHANNEL")
-            sys.exit(1)
-        if not config.CONFIG['slackAccessToken']:
-            print("must set a slack access token using environment variable BLEACH_SLACK_ACCESS_TOKEN")
+        if not config.CONFIG['slackWebhook']:
+            print("must set a slack webhook using environment variable BLEACH_SLACK_WEBHOOK")
             sys.exit(1)
 
     if args.sourceControl not in ['github', 'bitbucket']:
