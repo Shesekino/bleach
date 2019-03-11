@@ -14,11 +14,9 @@ def listPullRequests(owner, repository):
         response = requests.get(url, headers=headers)
 
         if response.status_code == 404:
-            print("couldn't find the organization or repository")
-            return []
+            raise Exception("couldn't find the organization or repository")
 
         if response.status_code == 401:
-            print("unauthorized, check your access token")
             raise Exception("unauthorized, check your access token")
 
         pullrequests = response.json()
@@ -39,6 +37,38 @@ def listPullRequests(owner, repository):
             keepFetchingResults = False
 
     return processedResults
+
+
+# alert if there's a commit in `branchSecondary` that isn't in `branchPrimary`
+# also consider how old that commit is
+def missingCommits(owner, repo, branchPrimary, branchSecondary):
+    URL_TEMPLATE = "https://api.github.com/repos/{owner}/{repo}/commits?sha={branch}"
+    headers = _getHeaders()
+
+    roleToBranch = {
+        'primary': {'name': branchPrimary},
+        'secondary': {'name': branchSecondary},
+    }
+
+    for branch in roleToBranch.values():
+        url = URL_TEMPLATE.format(owner=owner, repo=repo, branch=branch['name'])
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 404:
+            raise Exception("couldn't find the organization or repository")
+
+        commits = response.json()
+        branch['commits'] = commits
+        branch['shas'] = [commit['sha'] for commit in commits]
+
+    # heuristics begin here
+    if roleToBranch['secondary']['commits'][0]['sha'] not in roleToBranch['primary']['shas']:
+        # print(roleToBranch['secondary']['commits'][0]['sha'], 'is not in', roleToBranch['primary']['shas'])
+        # care to elaborate on what's missing?
+        # also check how long
+        return True
+
+    return False
 
 
 def _getUrl(owner, repository):

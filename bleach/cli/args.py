@@ -5,27 +5,35 @@ from bleach import config
 
 
 def getCommandlineArgs():
-    parser = argparse.ArgumentParser(description="Get pull request status")
+    parser = argparse.ArgumentParser(prog="bleach", description="Keep your repository clean and tidy")
 
     parser.add_argument("owner", help="the name of the repository's owner")
     parser.add_argument("repository", help="the name of the repository to get PR status for")
     parser.add_argument("--outputMethod", help="output method. may be 'stdout' (default) or 'slack'"
                                                " (requires OAuth token)", default="stdout")
-    parser.add_argument("--daysOpenThreshold", help="show only pull requests open longer than this number (days)",
-                        type=int, default=config.CONFIG['daysOpenThreshold'])
-    parser.add_argument("--countToDisplay", help="how many pull requests to display", type=int,
-                        default=config.CONFIG['countToDisplay'])
     parser.add_argument(
         "--sourceControl",
         help="type of source control to query. currently supported: GitHub, BitBucket (Cloud)."
-             " valid values are 'github' or 'bitbucket'. defaults to github.\n"
+             " valid values are 'github' or 'bitbucket'. defaults to github."
              "if you choose 'github', you must provide an access token in order to access private repositories."
-             " this is possible by setting the environment variable BLEACH_GITHUB_ACCESS_TOKEN\n"
+             " this is possible by setting the environment variable BLEACH_GITHUB_ACCESS_TOKEN"
              "if you choose 'bitbucket', you must provide username and password (or App Password)."
              " this is possible by setting the environment variables BLEACH_BITBUCKET_CLOUD_USER"
              " and BLEACH_BITBUCKET_CLOUD_PASSWORD",
         default="github",
     )
+
+    subparsers = parser.add_subparsers(help='sub-command help', dest='subparser_name')
+    subparserPullrequest = subparsers.add_parser('pr', help='check pull request age')
+    subparserBranchDiscrepancy = subparsers.add_parser('branch', help='compare branches')
+
+    subparserPullrequest.add_argument("--daysOpenThreshold", help="show only pull requests open longer than this number (days)",
+                        type=int, default=config.CONFIG['daysOpenThreshold'])
+    subparserPullrequest.add_argument("--countToDisplay", help="how many pull requests to display", type=int,
+                        default=config.CONFIG['countToDisplay'])
+
+    subparserBranchDiscrepancy.add_argument("primary", help="name of the primary branch")
+    subparserBranchDiscrepancy.add_argument("secondary", help="name of the secondary branch")
 
     args = parser.parse_args()
     _validateArgs(args)
@@ -34,6 +42,11 @@ def getCommandlineArgs():
 
 
 def _validateArgs(args):
+    # use types for validation
+    # https://stackoverflow.com/questions/14117415/in-python-using-argparse-allow-only-positive-integers
+    # TODO restore me omfg
+    return
+
     if args.daysOpenThreshold < 0:
         print("--daysOpenThreshold must be non-negative")
         sys.exit(1)
@@ -65,7 +78,14 @@ def _validateArgs(args):
 
 
 def _loadArgsToConfig(args):
+    # this is terrible
+    if (args.subparser_name == 'pr'):
+        config.CONFIG["daysOpenThreshold"] = args.daysOpenThreshold
+        config.CONFIG["countToDisplay"] = args.countToDisplay
+
+    if (args.subparser_name == 'branch'):
+        config.CONFIG["primary"] = args.primary
+        config.CONFIG["secondary"] = args.secondary
+
     config.CONFIG["outputMethod"] = args.outputMethod
-    config.CONFIG["daysOpenThreshold"] = args.daysOpenThreshold
-    config.CONFIG["countToDisplay"] = args.countToDisplay
     config.CONFIG["sourceControl"] = args.sourceControl
