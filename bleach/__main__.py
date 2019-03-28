@@ -7,7 +7,7 @@ from bleach.formatters import oldest_requests
 from bleach.sourcecontrol import bitbucket_cloud
 
 
-def main(owner, repository):
+def pr(owner, repository):
     sourceControl = config.CONFIG["sourceControl"]
     if sourceControl == 'github':
         pullrequestInfo = github.listPullRequests(owner, repository)
@@ -25,9 +25,6 @@ def main(owner, repository):
         slack.send(formattedOutput)
     else:
         raise Exception("invalid output method %s" % outputMethod)
-
-def pr(owner, repository):
-    main(owner, repository)  # :genius:
 
 def branch(owner, repository, primary, secondary):
     # who needs to check the optional parameters?
@@ -58,6 +55,3 @@ if __name__ == "__main__":
 
     if args.subparser_name == 'branch':
         branch(args.owner, args.repository, args.primary, args.secondary)
-
-    # durrr
-    # main(args.owner, args.repository)
