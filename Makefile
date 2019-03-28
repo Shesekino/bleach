@@ -1,4 +1,4 @@
-all: clean build
+all: clean test build
 
 clean:
 	rm -rf build
@@ -9,3 +9,5 @@ build:
 upload:
 	python3 -m twine upload dist/*
 
+test:
+	python -m unittest discover ./tests
