@@ -1,8 +1,8 @@
 import unittest
 
-from bleach import __main__
+from bleach.commands import pullrequest
 
 class TestPullRequest(unittest.TestCase):
 
-    def test_eggy(self):
-        self.assertEqual(1, 1)
+    def test_pullrequest(self):
+        prResult = pullrequest.main('shesekino', 'bleach')
