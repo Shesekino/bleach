@@ -9,7 +9,20 @@ class TestPullRequest(unittest.TestCase):
         CMD = [
           "python3",
           "./bleach/__main__.py",
+          "shesekino",
+          "bleach",
+          "pr",
         ]
-        shit = subprocess.check_output(CMD, stdin=None, stderr=None, env=ENV)
-        print("shit:", shit)
+        prOutput = subprocess.check_output(CMD, stdin=None, stderr=None, env=ENV)
         
+        self.assertTrue('*bleach*' in prOutput)
+        self.assertTrue('[USED IN MANUAL TESTS] insignificant PR' in prOutput)
+        self.assertTrue('open for' in prOutput)
+        self.assertTrue('owner is Shesekino' in prOutput)
+        self.assertTrue('https://github.com/Shesekino/bleach/pull/3' in prOutput)
+        
+        self.assertTrue('*bleach*' in prOutput)
+        self.assertTrue('[USED IN MANUAL TESTS] sweet touch, you\'ve given me too much to feel' in prOutput)
+        self.assertTrue('open for' in prOutput)
+        self.assertTrue('owner is Shesekino' in prOutput)
+        self.assertTrue('https://github.com/Shesekino/bleach/pull/4' in prOutput)
