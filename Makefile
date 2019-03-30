@@ -9,5 +9,6 @@ build:
 upload:
 	python3 -m twine upload dist/*
 
+test: export PYTHONPATH=.
 test:
 	python -m unittest discover ./tests
