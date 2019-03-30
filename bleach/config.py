@@ -1,5 +1,7 @@
 import os
 
+DEFAULT_OUTPUT_METHOD = 'stdout'
+DEFAULT_SOURCE_CONTROL = 'github'
 
 CONFIG = {
     "slackWebhook": os.environ.get("BLEACH_SLACK_WEBHOOK", None),
@@ -8,4 +10,6 @@ CONFIG = {
     "bitbucketCloudPassword": os.environ.get("BLEACH_BITBUCKET_CLOUD_PASSWORD", None),
     "daysOpenThreshold": 2,
     "countToDisplay": 5,
+    "outputMethod": DEFAULT_OUTPUT_METHOD,
+    "sourceControl": DEFAULT_SOURCE_CONTROL,
 }

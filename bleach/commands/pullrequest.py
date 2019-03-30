@@ -6,8 +6,6 @@ from bleach.formatters import oldest_requests
 from bleach.sourcecontrol import bitbucket_cloud
 
 def main(owner, repository):
-    import pdb
-    pdb.set_trace()
     sourceControl = config.CONFIG["sourceControl"]
     if sourceControl == 'github':
         pullrequestInfo = github.listPullRequests(owner, repository)

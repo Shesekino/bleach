@@ -10,7 +10,7 @@ def getCommandlineArgs():
     parser.add_argument("owner", help="the name of the repository's owner")
     parser.add_argument("repository", help="the name of the repository to get PR status for")
     parser.add_argument("--outputMethod", help="output method. may be 'stdout' (default) or 'slack'"
-                                               " (requires OAuth token)", default="stdout")
+                                               " (requires OAuth token)", default=config.DEFAULT_OUTPUT_METHOD)
     parser.add_argument(
         "--sourceControl",
         help="type of source control to query. currently supported: GitHub, BitBucket (Cloud)."
@@ -20,7 +20,7 @@ def getCommandlineArgs():
              "if you choose 'bitbucket', you must provide username and password (or App Password)."
              " this is possible by setting the environment variables BLEACH_BITBUCKET_CLOUD_USER"
              " and BLEACH_BITBUCKET_CLOUD_PASSWORD",
-        default="github",
+        default=config.DEFAULT_SOURCE_CONTROL,
     )
 
     subparsers = parser.add_subparsers(help='sub-command help', dest='subparser_name')
