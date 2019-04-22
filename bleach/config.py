@@ -12,4 +12,6 @@ CONFIG = {
     "countToDisplay": 5,
     "outputMethod": DEFAULT_OUTPUT_METHOD,
     "sourceControl": DEFAULT_SOURCE_CONTROL,
+    # TODO: probably losing boolean value if it comes from env
+    "printOnlyActionable": os.environ.get("BLEACH_PRINT_ONLY_ACTIONABLE", False),
 }

@@ -15,7 +15,7 @@ def main(owner, repository, primary, secondary):
         hasSomethingToSay = True
         badlyFormattedOutput = TEMPLATE_MISS.format(repo=repository, primary=primary, secondary=secondary)
     outputMethod = config.CONFIG["outputMethod"]
-    if hasSomethingToSay:
+    if hasSomethingToSay or not config.CONFIG['printOnlyActionable']:
         if outputMethod == 'stdout':
             stdout.send(badlyFormattedOutput)
         elif outputMethod == 'slack':
