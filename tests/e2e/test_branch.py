@@ -36,5 +36,3 @@ class TestPullRequest(unittest.TestCase):
 
         self.assertFalse(prOutput)
         self.assertEqual(prOutput, '')
-
-
