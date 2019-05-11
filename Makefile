@@ -12,3 +12,5 @@ upload:
 test: export PYTHONPATH=.
 test:
 	python -m unittest discover ./tests
+
+.PHONY: all clean test build
