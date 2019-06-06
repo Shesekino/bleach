@@ -8,7 +8,7 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="bleachrepo",
-    version="0.0.22",
+    version="0.0.23",
     author="Amir Moualem",
     author_email="amoualem@gmail.com",
     description="Find and remove the mold from your source control repositories",
