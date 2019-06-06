@@ -20,16 +20,25 @@ def listPullRequests(owner, repository):
             raise Exception("unauthorized, check your access token")
 
         pullrequests = response.json()
-        processedResults.extend(
-            pullrequest.PullRequest(
-                repo=repository,
-                createdAt=pullrequestInfo['created_at'],
-                user=pullrequestInfo['user']['login'],
-                title=pullrequestInfo['title'],
-                url=pullrequestInfo['html_url'],
+
+        def getLogin(user):
+            return user['login']
+
+        for pullrequestInfo in pullrequests:
+            if 'assignees' in pullrequestInfo and len(pullrequestInfo['assignees']):
+                user = ', '.join(map(getLogin, pullrequestInfo['assignees']))
+            else:
+                user = getLogin(pullrequestInfo['user'])
+
+            processedResults.append(
+                pullrequest.PullRequest(
+                    repo=repository,
+                    createdAt=pullrequestInfo['created_at'],
+                    user=user,
+                    title=pullrequestInfo['title'],
+                    url=pullrequestInfo['html_url'],
+                )
             )
-            for pullrequestInfo in pullrequests
-        )
 
         if response.links and 'next' in response.links:
             url = response.links['next']['url']
